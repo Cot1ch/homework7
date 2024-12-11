@@ -8,16 +8,23 @@ namespace Tumakov7
     {
         static void Main()
         {
-            //Task1();
-            //Task2();
-            //Task3();
-            //Task4(); //Написать само задание
-            //Task5();
-            //Task6();
+            Task1();
+            Task2();
+            Task3();
+            Task4(); 
+            Task5();
+            Task6();
 
-            Console.WriteLine("Пресс самфинг то эксит...");
+            Console.WriteLine("Пресс самфинг ту эксит...");
             Console.ReadKey();
         }
+
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>-</returns>
         static void Task1()
         {
             Console.WriteLine("Упражнение 8.1\n");
@@ -49,7 +56,11 @@ namespace Tumakov7
             while (flag);
             Console.WriteLine("Перевод выполнен, ждите зачисления денег на счёт");
         }
-
+        /// <summary>
+        /// Считывает число с консоли - 1 либо 2 - и возвращает тип банковского аккаунта.
+        /// Ввод до победного
+        /// </summary>
+        /// <returns>Объект типа BankAccount</returns>
         static BankAccount InputAcc()
         {
             BankAccount acc = new BankAccount();
@@ -121,15 +132,26 @@ namespace Tumakov7
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>-</returns>
         static void Task2()
         {
-            Console.WriteLine("Упражнение 8.2\n");
+            Console.WriteLine("\nУпражнение 8.2\n");
 
             Console.WriteLine("Введите строку");
             string s = Console.ReadLine();
             Console.WriteLine(Reverse(s));
         }
+
+        /// <summary>
+        /// Считывает строку символов с консоли и преобразует ее к неотрицательному числу. Ввод продолжается до тех пор, 
+        /// пока пользователь не введет число.
+        /// </summary>
+        /// <returns>строка string</returns>
         static string Reverse(string str)
         {
             string retStr = String.Empty;
@@ -141,9 +163,15 @@ namespace Tumakov7
             
             return retStr;
         }
+
+        /// <summary>
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>-</returns>
         static void Task3()
         {
-            Console.WriteLine("Упражнение 8.3\n");
+            Console.WriteLine("\nУпражнение 8.3\n");
 
             Console.WriteLine("Введите название файла (1.txt умолчанию)");
             string name = Console.ReadLine();
@@ -166,6 +194,11 @@ namespace Tumakov7
             }
         }
 
+        /// <summary>
+        /// Считывает строку символов с консоли и преобразует ее к неотрицательному числу. Ввод продолжается до тех пор, 
+        /// пока пользователь не введет число.
+        /// </summary>
+        /// <returns>Строка string</returns>
         static string GetUpper(string str)
         {
             string retStr = String.Empty;
@@ -176,14 +209,72 @@ namespace Tumakov7
             return retStr;
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>-</returns>
         static void Task4()
         {
-            Console.WriteLine("Упражнение 8.4\n");
+            Console.WriteLine("\nУпражнение 8.4\n");
 
+            object obj1 = 42;
+            IsCheck(obj1);
+            AsCheck(obj1);
+
+            object obj2 = "ksvbskdbkvsdj";
+            IsCheck(obj2);
+            AsCheck(obj2);
+
+            object obj3 = true;
+            IsCheck(obj3);
+            AsCheck(obj3);
         }
+
+        /// <summary>
+        /// Считывает строку символов с консоли и преобразует ее к неотрицательному числу. Ввод продолжается до тех пор, 
+        /// пока пользователь не введет число.
+        /// </summary>
+        /// <returns>-</returns>
+        static void IsCheck(object o)
+        {
+            if (o is IFormattable)
+            {
+                Console.WriteLine($"{o.GetType().FullName} реализует.");
+            }
+            else
+            {
+                Console.WriteLine($"{o.GetType().FullName} не реализует.");
+            }
+        }
+
+        /// <summary>
+        /// Считывает строку символов с консоли и преобразует ее к неотрицательному числу. Ввод продолжается до тех пор, 
+        /// пока пользователь не введет число.
+        /// </summary>
+        /// <returns>-</returns>
+        static void AsCheck(object o)
+        {
+            if (o as IFormattable != null)
+            {
+                Console.WriteLine($"{o.GetType().Name} реализует.");
+            }
+            else
+            {
+                Console.WriteLine($"{o.GetType().Name} не реализует.");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>-</returns>
         static void Task5()
         {
-            Console.WriteLine("Домашнее задание 8.1\n");
+            Console.WriteLine("\nДомашнее задание 8.1\n");
 
             string filePath = $"{Directory.GetCurrentDirectory()}..\\..\\..\\..\\resourses\\emails.txt";
 
@@ -204,14 +295,25 @@ namespace Tumakov7
             }
         }
 
+        /// <summary>
+        /// Считывает строку символов с консоли и преобразует ее к неотрицательному числу. Ввод продолжается до тех пор, 
+        /// пока пользователь не введет число.
+        /// </summary>
+        /// <returns>-</returns>
         static void ParseEmail(ref string str)
         {
             str = str.Split(new[] {" # " }, StringSplitOptions.None)[1];
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns>-</returns>
         static void Task6()
         {
-            Console.WriteLine("Домашнее задание 8.2\n");
+            Console.WriteLine("\nДомашнее задание 8.2\n");
 
             List<Song> songs = new List<Song>
             {

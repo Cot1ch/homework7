@@ -7,12 +7,15 @@ namespace homework7
     {
         static void Main()
         {
-            Taska(); //раскидать классы по файлам
+            Taska(); //раскидать классы по файлам, вайл флг на ввод тасков
+
+            Console.WriteLine("Пресс самфинг ту эксит...");
+            Console.ReadKey();
         }
 
         static void Taska()
         {
-            //Блок сотрудгников
+            //Блок сотрудников
 
             Person timur = new Person("Тимур", "Генеральный директор");
             Person rashid = new Person("Рашид", "Финансовый директор");
@@ -26,91 +29,74 @@ namespace homework7
             Person ilshat = new Person("Ильшат", "Главный системщик");
             Person ivanych = new Person("Иваныч", "Зам Ильшата");
             //Сотрудники
-            List<Person> engineers = new List<Person>()
-            {
-                new Person("Илья", "системщик"),
-                new Person("Витя", "системщик"),
-                new Person("Женя", "системщик")
-            };
+            Person ilya = new Person("Илья", "системщик");
+            Person vitya = new Person("Витя", "системщик");
+            Person zhenya = new Person("Женя", "системщик");
+
             //Разрабы
             Person sergey = new Person("Сергей", "Главный разраб");
             Person lyaisan = new Person("Ляйсан", "Зам Сергея");
             //Сотрудники
-            List<Person> developers = new List<Person>()
-            {
-                new Person("Марат", "разраб"),
-                new Person("Ильдар", "разраб"),
-                new Person("Дина", "разраб"),
-                new Person("Антон", "разраб")
-            };
+            Person marat = new Person("Марат", "разраб");
+            Person ildar = new Person("Ильдар", "разраб");
+            Person dina = new Person("Дина", "разраб");
+            Person anton = new Person("Антон", "разраб");
+
+            timur.Employers.Add(rashid);
+            timur.Employers.Add(oilham);
+            rashid.Employers.Add(lucas);
+            oilham.Employers.Add(orkadiy);
+            orkadiy.Employers.Add(volodya);
+            orkadiy.Employers.Add(ilshat);
+            volodya.Employers.Add(ilshat);
+            ilshat.Employers.Add(ivanych);
+
+            orkadiy.Employers.Add(sergey);
+            volodya.Employers.Add(sergey);
+            sergey.Employers.Add(lyaisan);
+
+            ilshat.Employers.AddRange(new List<Person>() { ilya, vitya, zhenya });
+            ivanych.Employers.AddRange(new List<Person>() { ilya, vitya, zhenya });
+
+            sergey.Employers.AddRange(new List<Person>() { marat, dina, ildar, anton });
+            lyaisan.Employers.AddRange(new List<Person>() { marat, dina, ildar, anton });
 
             List<Person> people = new List<Person>()
             {
-                timur, rashid, oilham, lucas, orkadiy, volodya, ilshat, ivanych, sergey, lyaisan
+                timur, rashid, oilham, lucas, orkadiy, volodya, ilshat, ivanych, sergey, lyaisan, ilya, vitya, zhenya, marat, ildar, dina, anton
             };
-            people.AddRange(engineers);
-            people.AddRange(developers);
-
             Dictionary<string, Person> persons = new Dictionary<string, Person>();
             foreach (Person person in people)
             {
                 persons[person.Name.ToLower()] = person;
             }
 
-            //Делаем граф со связями сотрудников
-            Graph graph = new Graph();
-            graph.AddEdge(timur, rashid);
-            graph.AddEdge(timur, oilham);
-
-            graph.AddEdge(rashid, lucas);
-
-            graph.AddEdge(oilham, orkadiy);
-            graph.AddEdge(orkadiy, volodya);
-            graph.AddEdge(orkadiy, ilshat);
-            graph.AddEdge(orkadiy, sergey);
-
-            graph.AddEdge(volodya, ilshat);
-            graph.AddEdge(volodya, sergey);
-            graph.AddEdge(ilshat, ivanych);
-            graph.AddEdge(sergey, lyaisan);
-                  
-            for (int i = 0; i < developers.Count; i++)
-            {
-                graph.AddEdge(sergey, developers[i]);
-                graph.AddEdge(lyaisan, developers[i]);
-            }
-            for (int i = 0; i < engineers.Count; i++)
-            {
-                graph.AddEdge(ilshat, engineers[i]);
-                graph.AddEdge(ivanych, engineers[i]);
-            }
-
-            Console.WriteLine(graph.ToString());
-
             //Ввод задачи
-            Console.WriteLine("Введите название задачи: ");
-            string taskName = Console.ReadLine();
-            
-            Console.WriteLine("От кого задача:");
-            Person fromWho = GetPerson(persons);
-
-            Console.WriteLine("Кому задача:");
-            Person toWho = GetPerson(persons);
-
-            Console.WriteLine("Введите описание задачи: ");
-            string disk = Console.ReadLine();
-
-            Task task = new Task(taskName, fromWho, toWho, disk);
-
-            if (fromWho.Name == fromWho.Name)
+            bool flag2 = true;
+            do
             {
-                Console.WriteLine("\t\t\t<<<<насяльника найден>>>>");
+                Console.WriteLine("\nВыберите действие:\nНовое задание\nВыход");
+                string input = Console.ReadLine();
 
-                string status = graph.Find(fromWho, toWho) ? "Принято" : "Не принято";
-                task.Status = status;
+                if (input.ToLower() == "выход")
+                {
+                    flag2 = false;
+                }
+                else if (input.ToLower().StartsWith("новое"))
+                {
+                    Task taska = GetTask(persons);
 
-                Console.WriteLine(task.ToString());
+                    string status = taska.FromWho.Employers.Contains(taska.ToWho) ? "Принято" : "Не принято";
+                    taska.Status = status;
+
+                    Console.WriteLine(taska.ToString());
+                }
+                else
+                {
+                    Console.WriteLine("Проверьте коррекность ввода");
+                }                
             }
+            while (flag2);
         }
 
         static Person GetPerson(Dictionary<string, Person> dict)
@@ -134,6 +120,26 @@ namespace homework7
             while (flag);
 
             return retPerson;
+        }
+
+        static Task GetTask(Dictionary<string, Person> dict)
+        {
+            Console.WriteLine("Введите название задачи: ");
+            string taskName = Console.ReadLine();
+
+            Console.WriteLine("От кого задача:");
+            Person fromWho = GetPerson(dict);
+            Console.WriteLine("\t\t<<<<насяльника найден>>>>");
+
+            Console.WriteLine("Кому задача:");
+            Person toWho = GetPerson(dict);
+
+            Console.WriteLine("Введите описание задачи: ");
+            string disk = Console.ReadLine();
+
+            Task task = new Task(taskName, fromWho, toWho, disk);
+
+            return task;
         }
     }
 }
