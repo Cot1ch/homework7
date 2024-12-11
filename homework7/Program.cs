@@ -7,18 +7,20 @@ namespace homework7
     {
         static void Main()
         {
-            Taska(); //добавить try-ввод имен, ToLower, раскидать классы по файлам
+            Taska(); //раскидать классы по файлам
         }
 
         static void Taska()
         {
-            Person timur = new Person("Тимур", "Ген дир");
-            Person rashid = new Person("Рашид", "Фин дир");
-            Person oilham = new Person("О Ильхам", "Авто дир");
+            //Блок сотрудгников
+
+            Person timur = new Person("Тимур", "Генеральный директор");
+            Person rashid = new Person("Рашид", "Финансовый директор");
+            Person oilham = new Person("О Ильхам", "Директор по автоматизации");
             //Бухгалтерия
-            Person lucas = new Person("Лукас", "Главный бух");
+            Person lucas = new Person("Лукас", "Главный бухгалтер");
             //ОИТ
-            Person orkadiy = new Person("Оркадий", "Начальник инф систем");
+            Person orkadiy = new Person("Оркадий", "Начальник отдела информационных систем");
             Person volodya = new Person("Володя", "Зам Оркадия");
             //Системщики
             Person ilshat = new Person("Ильшат", "Главный системщик");
@@ -52,28 +54,31 @@ namespace homework7
             Dictionary<string, Person> persons = new Dictionary<string, Person>();
             foreach (Person person in people)
             {
-                persons[person.Name] = person;
+                persons[person.Name.ToLower()] = person;
             }
 
+            //Делаем граф со связями сотрудников
             Graph graph = new Graph();
             graph.AddEdge(timur, rashid);
             graph.AddEdge(timur, oilham);
+
             graph.AddEdge(rashid, lucas);
+
             graph.AddEdge(oilham, orkadiy);
             graph.AddEdge(orkadiy, volodya);
             graph.AddEdge(orkadiy, ilshat);
-            graph.AddEdge(volodya, ilshat);
             graph.AddEdge(orkadiy, sergey);
+
+            graph.AddEdge(volodya, ilshat);
             graph.AddEdge(volodya, sergey);
             graph.AddEdge(ilshat, ivanych);
             graph.AddEdge(sergey, lyaisan);
-
+                  
             for (int i = 0; i < developers.Count; i++)
             {
                 graph.AddEdge(sergey, developers[i]);
                 graph.AddEdge(lyaisan, developers[i]);
             }
-
             for (int i = 0; i < engineers.Count; i++)
             {
                 graph.AddEdge(ilshat, engineers[i]);
@@ -82,39 +87,53 @@ namespace homework7
 
             Console.WriteLine(graph.ToString());
 
-
-
+            //Ввод задачи
+            Console.WriteLine("Введите название задачи: ");
+            string taskName = Console.ReadLine();
+            
             Console.WriteLine("От кого задача:");
-            string namefrom = Console.ReadLine();
-
-            if (persons.TryGetValue(namefrom, out var personfrom))
-                namefrom = personfrom.Name;
+            Person fromWho = GetPerson(persons);
 
             Console.WriteLine("Кому задача:");
-            string nameto = Console.ReadLine();
-            if (persons.TryGetValue(nameto, out var personto))
-                nameto = personto.Name;
+            Person toWho = GetPerson(persons);
 
-            Person employee = persons[namefrom];
-            Person employee2 = persons[nameto];
+            Console.WriteLine("Введите описание задачи: ");
+            string disk = Console.ReadLine();
 
+            Task task = new Task(taskName, fromWho, toWho, disk);
 
-
-
-            if (employee.Name == namefrom)
+            if (fromWho.Name == fromWho.Name)
             {
-                Console.WriteLine("насяльника найден");
+                Console.WriteLine("\t\t\t<<<<насяльника найден>>>>");
 
-                if (graph.Find(employee, employee2))
+                string status = graph.Find(fromWho, toWho) ? "Принято" : "Не принято";
+                task.Status = status;
+
+                Console.WriteLine(task.ToString());
+            }
+        }
+
+        static Person GetPerson(Dictionary<string, Person> dict)
+        {
+
+            bool flag = true;
+            Person retPerson = null; // По идее не должно такого произойти
+            do
+            {
+                string name = Console.ReadLine();
+                if (dict.TryGetValue(name.ToLower(), out Person person))
                 {
-                    Console.WriteLine("Принято");
+                    retPerson = person;
+                    flag = false;
                 }
                 else
                 {
-                    Console.WriteLine("Не принято");
+                    Console.WriteLine("Такого человека нет, проверьте корректность ввода имени");
                 }
             }
+            while (flag);
 
+            return retPerson;
         }
     }
 }

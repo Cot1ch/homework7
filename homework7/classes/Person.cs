@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-
 
 namespace homework7
 {
@@ -28,6 +26,7 @@ namespace homework7
         private Person _FromWho;
         private Person _ToWho;
         private string _Discription;
+        private string _Status;
 
         public Task(string name, Person fromWho, Person toWho, string discription)
         {
@@ -35,6 +34,18 @@ namespace homework7
             _FromWho = fromWho;
             _ToWho = toWho;
             _Discription = discription;
+        }
+        public string Status 
+        { 
+            get { return _Status; } 
+            set { _Status = value; } 
+        }
+
+        public override string ToString()
+        {
+            string result = $"Задача {_Name}\nОт кого: {_FromWho.Name}\nКому: {_ToWho.Name}\nОписание задачи: {_Discription}\nСтатус: {Status}";
+
+            return result;
         }
     }
     internal class Graph
@@ -50,11 +61,12 @@ namespace homework7
             _Graph = new Dictionary<Person, List<Person>>();
         }
 
-
         public void AddEdge(Person start, Person end)
         {
             if (!graphDict.ContainsKey(start))
+            {
                 graphDict[start] = new List<Person>();
+            }
             graphDict[start].Add(end);
         }
         public override string ToString()
@@ -81,17 +93,9 @@ namespace homework7
             {
                 foreach (var p in graphDict[p1])
                 {
-                    if (p.Name == p2.Name)
+                    if (p.Name == p2.Name || Find(p, p2))
                     {
-                        Console.WriteLine("Победа");
                         return true;
-                    }
-                    else
-                    {
-                        if (Find(p, p2))
-                        {
-                            return true;
-                        }
                     }
                 }
             }
