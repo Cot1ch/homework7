@@ -33,7 +33,7 @@
 
         public override string ToString()
         {
-            string result = $"Задача {_Name}\nОт кого: {_FromWho.Name}\nКому: {_ToWho.Name}\nОписание задачи: {_Discription}\nСтатус: {Status}";
+            string result = $"==>\nЗадача {_Name}\nОт кого: {_FromWho.Name}\nКому: {_ToWho.Name}\nОписание задачи: {_Discription}\nСтатус: {Status}\n<==";
 
             return result;
         }

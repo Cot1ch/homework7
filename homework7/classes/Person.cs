@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace homework7
 {
@@ -29,6 +30,20 @@ namespace homework7
         { 
             get { return _Employers; } 
             set { _Employers = value; } 
+        }
+
+        public void PrintInfo()
+        {
+            Console.WriteLine($"{Name, -7} --> {Function}");
+            string info = String.Empty;
+            if (Employers != null)
+            {
+                foreach (Person person in Employers)
+                {
+                    info += $"{person.Name, -8} | {person.Function}\n";
+                }
+            }
+            Console.WriteLine(info);
         }
     }
 }
