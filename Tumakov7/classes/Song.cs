@@ -4,10 +4,13 @@ namespace Tumakov7
 {
     internal class Song
     {
+        #region Fields
         private string _Name;
         private string _Author;
         private Song _Previous;
+        #endregion
 
+        #region Properties
         public string Name 
         { 
             get { return _Name; } 
@@ -30,7 +33,13 @@ namespace Tumakov7
         {
             return Name + " - " + Author;
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Сравнивает 2 песни, если это возможно.
+        /// </summary>
+        /// <returns>Значение типа bool</returns>
         public override bool Equals(object d)
         {
             try
@@ -51,5 +60,6 @@ namespace Tumakov7
                 return false;
             }
         }
+        #endregion
     }
 }

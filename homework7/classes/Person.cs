@@ -5,9 +5,11 @@ namespace homework7
 {
     internal class Person
     {
+        #region Fields
         private string _Name;
         private string _Function;
         private List<Person> _Employers;
+        #endregion
 
         public Person(string name, string function)
         {
@@ -15,7 +17,8 @@ namespace homework7
             _Function = function;
             _Employers = new List<Person>();
         }
-        
+
+        #region Properties
         public string Name
         { 
             get { return _Name; } 
@@ -31,7 +34,12 @@ namespace homework7
             get { return _Employers; } 
             set { _Employers = value; } 
         }
-
+        #endregion
+        /// <summary>
+        /// Ввод данных о сотруднике
+        /// </summary>
+        /// <returns>-</returns>
+        #region Methods
         public void PrintInfo()
         {
             Console.WriteLine($"{Name, -7} --> {Function}");
@@ -45,5 +53,6 @@ namespace homework7
             }
             Console.WriteLine(info);
         }
+        #endregion
     }
 }
