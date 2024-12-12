@@ -280,7 +280,7 @@ namespace Tumakov7
             string filePath = $"{Directory.GetCurrentDirectory()}..\\..\\..\\..\\resourses\\emails.txt";
 
             if (File.Exists(filePath))
-            {
+            {   
                 string[] readContent = File.ReadAllText(filePath).Split(new[] { "\n" }, StringSplitOptions.None);
 
                 for (int i = 0; i < readContent.Length; i++)
@@ -288,6 +288,7 @@ namespace Tumakov7
                     ParseEmail(ref readContent[i]);
                 }
                 File.WriteAllText($"{Directory.GetCurrentDirectory()}..\\..\\..\\..\\resourses\\ДЗ 8.1.txt", String.Join("", readContent));
+                Console.WriteLine("Исходный файл - emails.txt");
                 Console.WriteLine("Информация записана в файл resourses/ДЗ 8.1.txt");
             }
             else
